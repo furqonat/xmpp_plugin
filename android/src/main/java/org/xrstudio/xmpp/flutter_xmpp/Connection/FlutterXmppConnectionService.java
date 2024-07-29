@@ -75,7 +75,8 @@ public class FlutterXmppConnectionService extends Service {
             FlutterXmppConnectionService.sConnectionState = ConnectionState.FAILED;
             Utils.broadcastConnectionMessageToFlutter(this, ConnectionState.FAILED, "Something went wrong while connecting ,make sure the credentials are right and try again.");
             Utils.printLog(" Something went wrong while connecting ,make sure the credentials are right and try again: ");
-            e.printStackTrace();
+//            e.printStackTrace();
+            Utils.printLog("NADIA/ERROR/XMPP " + e.getLocalizedMessage());
             stopSelf();
         }
     }
@@ -116,7 +117,10 @@ public class FlutterXmppConnectionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        if (intent == null || intent.getExtras() == null) {
+            Utils.printLog("NADIA/XMPP/onStartCommand intent or intent.getExtras() was null");
+            return Service.START_STICKY;
+        }
         Utils.printLog(" onStartCommand(): ");
 
         Bundle extras = intent.getExtras();
